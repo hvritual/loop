@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "kind": "command_execution",
+  "id": "run-20261018T052913-0a34a778",
+  "check": "distribution-ci",
+  "argv": [
+    "/opt/pyvenv/bin/python",
+    "tests/validate_distribution_receipt.py"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "source_sha256": "34ac5cc51a5f58ffa66cce0928f9fd3a03694f2d17ce65e00dd9330213683cc8",
+  "source_unchanged": true,
+  "git_head": "f7305545037fefea756170e6706e5f6da1306e68",
+  "check_definition_sha256": "370163c0b6b6bf5df87a57006808c7f84456731cc396da34a459a6dd390a75e7",
+  "recorded_at": "2026-10-18T05:29:13.772212+00:00",
+  "log": ".planning/evidence/run-20261018T052913-0a34a778/output.log",
+  "log_sha256": "559d73d2fd9e462a13bd685163c96712d62c31a4c7d852a1d60db297505051af",
+  "intent_id": "LOOP-INSTALLER",
+  "contract_sha256": "cee75e8e916bf99b8cc68c79593dc91c108d8d66f1ef54d365f3bd46651a8e69",
+  "contract_unchanged": true
+}

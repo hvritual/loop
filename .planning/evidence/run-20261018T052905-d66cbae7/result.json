@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "kind": "command_execution",
+  "id": "run-20261018T052905-d66cbae7",
+  "check": "installer",
+  "argv": [
+    "/opt/pyvenv/bin/python",
+    "-m",
+    "unittest",
+    "tests.test_installer",
+    "tests.test_distribution_regressions",
+    "-v"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "source_sha256": "34ac5cc51a5f58ffa66cce0928f9fd3a03694f2d17ce65e00dd9330213683cc8",
+  "source_unchanged": true,
+  "git_head": "f7305545037fefea756170e6706e5f6da1306e68",
+  "check_definition_sha256": "2483b6ade356c8d1c63b8b2042f3584b4b67442654bc686509c424d0b1a90bcc",
+  "recorded_at": "2026-10-18T05:29:12.420791+00:00",
+  "log": ".planning/evidence/run-20261018T052905-d66cbae7/output.log",
+  "log_sha256": "b5f1a12fb8f4d54295cb663b554f6b03d481aa81b735c94a44311e4ea3f8076b",
+  "intent_id": "LOOP-INSTALLER",
+  "contract_sha256": "cee75e8e916bf99b8cc68c79593dc91c108d8d66f1ef54d365f3bd46651a8e69",
+  "contract_unchanged": true
+}

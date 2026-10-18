@@ -1,0 +1,26 @@
+{
+  "spec_sha256": "9278e12b3a21e7ce2c5581fd001040901facb71e3f48a7ac4e1419a9dc9c0357",
+  "risk_treatments": [
+    "Ownership gating",
+    "Staged upstream generation",
+    "Before/after journal with edit-aware recovery",
+    "Explicit no registry publication and no credentials",
+    "Separate install vs project readiness"
+  ],
+  "architecture": {
+    "path": ".planning/intents/LOOP-INSTALLER/architecture.md",
+    "sha256": "3778a1f283d2ef93b5594e4840c3cc6b0d4a044f9b2b975d1063d13c14e4b0d2"
+  },
+  "journeys": {
+    "path": ".planning/intents/LOOP-INSTALLER/journeys.md",
+    "sha256": "efc6629fc9cb0d1beb5282da4528794749a8b4091eea2739c9d5e3fae93b2694"
+  },
+  "failure_recovery": {
+    "path": ".planning/intents/LOOP-INSTALLER/failure-recovery.md",
+    "sha256": "2fd6d1e1155b0b3a4f7470a0966e4064e80ceb6312a1e531278cad4e747efbe9"
+  },
+  "test_strategy": {
+    "path": ".planning/intents/LOOP-INSTALLER/test-strategy.md",
+    "sha256": "07ec4f8415845e827ce8174b7a7233e9a57dcbe5b07be864463814040e9056d8"
+  }
+}

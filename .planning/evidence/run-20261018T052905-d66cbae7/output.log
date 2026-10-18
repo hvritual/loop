@@ -1,0 +1,51 @@
+test_all_skill_commands_are_relocated (tests.test_installer.LifecycleTests.test_all_skill_commands_are_relocated) ... ok
+test_checks_are_suggestions_not_executed (tests.test_installer.LifecycleTests.test_checks_are_suggestions_not_executed) ... ok
+test_claude_wrapper_present_offline (tests.test_installer.LifecycleTests.test_claude_wrapper_present_offline) ... ok
+test_clean_install (tests.test_installer.LifecycleTests.test_clean_install) ... ok
+test_concurrent_writer_rejected (tests.test_installer.LifecycleTests.test_concurrent_writer_rejected) ... ok
+test_doctor_detects_drift (tests.test_installer.LifecycleTests.test_doctor_detects_drift) ... ok
+test_doctor_offline_native_not_run (tests.test_installer.LifecycleTests.test_doctor_offline_native_not_run) ... ok
+test_dry_run_does_not_write (tests.test_installer.LifecycleTests.test_dry_run_does_not_write) ... ok
+test_existing_config_not_overwritten (tests.test_installer.LifecycleTests.test_existing_config_not_overwritten) ... ok
+test_existing_crlf_entry_roundtrip (tests.test_installer.LifecycleTests.test_existing_crlf_entry_roundtrip) ... ok
+test_explicit_checks_seed (tests.test_installer.LifecycleTests.test_explicit_checks_seed) ... ok
+test_extra_user_skill_survives (tests.test_installer.LifecycleTests.test_extra_user_skill_survives) ... ok
+test_gitignore_roundtrip (tests.test_installer.LifecycleTests.test_gitignore_roundtrip) ... ok
+test_idempotent_install (tests.test_installer.LifecycleTests.test_idempotent_install) ... ok
+test_identical_unowned_file_remains_shared (tests.test_installer.LifecycleTests.test_identical_unowned_file_remains_shared) ... ok
+test_installed_core_is_runnable (tests.test_installer.LifecycleTests.test_installed_core_is_runnable) ... ok
+test_installed_offline_lifecycle_launcher (tests.test_installer.LifecycleTests.test_installed_offline_lifecycle_launcher) ... ok
+test_invalid_check_shell_text_rejected (tests.test_installer.LifecycleTests.test_invalid_check_shell_text_rejected) ... ok
+test_malformed_block_manifest_rejected (tests.test_installer.LifecycleTests.test_malformed_block_manifest_rejected) ... ok
+test_missing_managed_file_is_repaired (tests.test_installer.LifecycleTests.test_missing_managed_file_is_repaired) ... ok
+test_modified_block_blocks_update (tests.test_installer.LifecycleTests.test_modified_block_blocks_update) ... ok
+test_modified_owned_file_blocks_update (tests.test_installer.LifecycleTests.test_modified_owned_file_blocks_update) ... ok
+test_new_version_upgrade_and_retired_file (tests.test_installer.LifecycleTests.test_new_version_upgrade_and_retired_file) ... ok
+test_non_git_root_rejected (tests.test_installer.LifecycleTests.test_non_git_root_rejected) ... ok
+test_project_config_survives_update (tests.test_installer.LifecycleTests.test_project_config_survives_update) ... ok
+test_project_preservation (tests.test_installer.LifecycleTests.test_project_preservation) ... ok
+test_recovery_after_process_death (tests.test_installer.LifecycleTests.test_recovery_after_process_death) ... ok
+test_recovery_refuses_later_edits (tests.test_installer.LifecycleTests.test_recovery_refuses_later_edits) ... ok
+test_source_approval_records_not_copied (tests.test_installer.LifecycleTests.test_source_approval_records_not_copied) ... ok
+test_subdirectory_not_root (tests.test_installer.LifecycleTests.test_subdirectory_not_root) ... ok
+test_symlink_target_rejected (tests.test_installer.LifecycleTests.test_symlink_target_rejected) ... ok
+test_traversal_manifest_rejected (tests.test_installer.LifecycleTests.test_traversal_manifest_rejected) ... ok
+test_uninstall_keeps_config_and_progress (tests.test_installer.LifecycleTests.test_uninstall_keeps_config_and_progress) ... ok
+test_uninstall_retains_modified_owned_file (tests.test_installer.LifecycleTests.test_uninstall_retains_modified_owned_file) ... ok
+test_uninstall_twice (tests.test_installer.LifecycleTests.test_uninstall_twice) ... ok
+test_unowned_core_file_conflict (tests.test_installer.LifecycleTests.test_unowned_core_file_conflict) ... ok
+test_unowned_entry_marker_is_conflict (tests.test_installer.LifecycleTests.test_unowned_entry_marker_is_conflict) ... ok
+test_update_requires_prior_install (tests.test_installer.LifecycleTests.test_update_requires_prior_install) ... ok
+test_user_text_outside_block_survives (tests.test_installer.LifecycleTests.test_user_text_outside_block_survives) ... ok
+test_write_failure_rolls_back (tests.test_installer.LifecycleTests.test_write_failure_rolls_back) ... ok
+test_current_process_is_alive (tests.test_distribution_regressions.DistributionRegressions.test_current_process_is_alive) ... ok
+test_dead_child_process_not_alive (tests.test_distribution_regressions.DistributionRegressions.test_dead_child_process_not_alive) ... ok
+test_failed_post_install_validation_rolls_back (tests.test_distribution_regressions.DistributionRegressions.test_failed_post_install_validation_rolls_back) ... ok
+test_git_root_decodes_utf8_explicitly (tests.test_distribution_regressions.DistributionRegressions.test_git_root_decodes_utf8_explicitly) ... ok
+test_transaction_validation_runs_on_noop (tests.test_distribution_regressions.DistributionRegressions.test_transaction_validation_runs_on_noop) ... ok
+test_windows_mode_is_stable_across_first_and_repeat (tests.test_distribution_regressions.DistributionRegressions.test_windows_mode_is_stable_across_first_and_repeat) ... ok
+
+----------------------------------------------------------------------
+Ran 46 tests in 6.481s
+
+OK

@@ -1,0 +1,104 @@
+name: Loop distribution
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: distribution-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  portable:
+    name: installer-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m unittest tests.test_installer tests.test_distribution_regressions -v
+      - run: mkdir -p .loop-cache && npm pack --pack-destination .loop-cache
+        shell: bash
+      - run: python tests/package_smoke.py .loop-cache/hvritual-loop-0.2.0.tgz
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: loop-package-${{ matrix.os }}
+          path: .loop-cache/*.tgz
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+  native:
+    name: installer-native-${{ matrix.runtime }}-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {runtime: codex, os: ubuntu-latest, extra: '--add-runtime claude --rehome'}
+          - {runtime: claude, os: ubuntu-latest, extra: ''}
+          - {runtime: opencode, os: ubuntu-latest, extra: ''}
+          - {runtime: codex, os: windows-latest, extra: ''}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: astral-sh/setup-uv@v6
+      - name: Pack distribution
+        shell: bash
+        run: mkdir -p .loop-cache && npm pack --pack-destination .loop-cache
+      - name: Real packaged upstream lifecycle
+        run: python tests/package_smoke.py .loop-cache/hvritual-loop-0.2.0.tgz --runtime ${{ matrix.runtime }} ${{ matrix.extra }}
+  github-package:
+    name: installer-github-entry
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install from exact GitHub source, without registry publication
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/consumer"
+          cd "$RUNNER_TEMP/consumer"
+          git init -q
+          npx --yes --package="https://github.com/hvritual/loop/archive/$SOURCE_SHA.tar.gz" loop install --project . --runtime codex --skip-upstreams
+          node .loop/core/bin/loop.cjs doctor --project .
+          node .loop/core/bin/loop.cjs uninstall --project .
+  source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Export reviewed source
+        run: git archive --format=tar.gz --output="$RUNNER_TEMP/loop-source.tar.gz" HEAD
+      - uses: actions/upload-artifact@v4
+        with:
+          name: loop-source
+          path: ${{ runner.temp }}/loop-source.tar.gz
+          retention-days: 7
+          if-no-files-found: error

@@ -1,0 +1,18 @@
+{
+  "result": "pass",
+  "kind": "captured_ci_receipt_validation",
+  "head_sha": "093458821ec5ab2f04b1891fa8a5ac26779e3023",
+  "run_id": 39100387213,
+  "job_ids": [
+    117595283392,
+    117595283454,
+    117595283444,
+    117595283453,
+    117595283382,
+    117595283469,
+    117595283541,
+    117595283411
+  ],
+  "native_execution_in_this_command": false,
+  "boundary": "Receipt integrity/release-input check, not a new native run or authenticated attestation."
+}

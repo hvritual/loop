@@ -1,0 +1,2 @@
+# Failure and recovery
+Unknown project root, unsupported tool, missing dependency, symlink, unowned collision or modified owned content: fail with exact reason. No --force overwrite. Upstream failure occurs in staging. Target writes use a journal and rollback on ordinary errors; process death leaves a recovery-required marker. Separate recover detects concurrent live writer and refuses to destroy unrelated edits. Config conflicts and uncertain non-project side effects are reported honestly.

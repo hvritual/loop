@@ -1,0 +1,2 @@
+# CLI journeys
+Install: inspect --dry-run; install --project ROOT --runtime codex; doctor. Repeat is a no-op. Add another runtime without resetting .planning. Update uses a reviewed versioned package. --checks seeds an explicit command registry only when missing; auto-detected commands stay suggestions. Uninstall retains config and tasks. Offline --skip-upstreams is explicitly incomplete native setup, never called full readiness.

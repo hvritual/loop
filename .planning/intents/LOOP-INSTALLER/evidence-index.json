@@ -1,0 +1,16 @@
+{
+  "source_sha256": "34ac5cc51a5f58ffa66cce0928f9fd3a03694f2d17ce65e00dd9330213683cc8",
+  "spec_sha256": "9278e12b3a21e7ce2c5581fd001040901facb71e3f48a7ac4e1419a9dc9c0357",
+  "acceptance": {
+    "AC-01": ".planning/evidence/run-20261018T052905-d66cbae7/result.json",
+    "AC-02": ".planning/evidence/run-20261018T052905-d66cbae7/result.json",
+    "AC-03": ".planning/evidence/run-20261018T052905-d66cbae7/result.json",
+    "AC-04": ".planning/evidence/run-20261018T052905-d66cbae7/result.json",
+    "AC-05": ".planning/evidence/run-20261018T052905-d66cbae7/result.json",
+    "AC-06": ".planning/evidence/run-20261018T052905-d66cbae7/result.json",
+    "AC-07": ".planning/evidence/run-20261018T052905-d66cbae7/result.json",
+    "AC-08": ".planning/evidence/run-20261018T052905-d66cbae7/result.json",
+    "AC-09": ".planning/evidence/run-20261018T052905-d66cbae7/result.json",
+    "AC-10": ".planning/evidence/run-20261018T052913-0a34a778/result.json"
+  }
+}

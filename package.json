@@ -1,0 +1,19 @@
+{
+  "name": "@hvritual/loop",
+  "version": "0.2.0",
+  "description": "Project-scoped GSD/BMAD workflow distribution and evidence contracts",
+  "private": true,
+  "bin": {"loop": "bin/loop.cjs"},
+  "engines": {"node": ">=22"},
+  "files": [
+    "bin/loop.cjs", "distribution/*.py", "scripts/__init__.py",
+    "scripts/common.py", "scripts/context.py", "scripts/evidence.py",
+    "scripts/gates.py", "scripts/loop.py", "scripts/bootstrap.py",
+    ".loop/rules.json", ".loop/upstreams.lock.json",
+    ".agents/skills/loop", ".agents/skills/loop-build", ".agents/skills/loop-intent",
+    ".agents/skills/loop-learn", ".agents/skills/loop-plan-bridge", ".agents/skills/loop-release",
+    ".agents/skills/loop-resume", ".agents/skills/loop-spec-design", ".agents/skills/loop-verify"
+  ],
+  "repository": {"type": "git", "url": "https://github.com/hvritual/loop.git"},
+  "scripts": {"test": "python -m unittest discover -s tests -v"}
+}
