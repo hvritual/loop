@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "target": "pull_request",
+  "source_sha256": "",
+  "external_ref": "",
+  "observed_result": "",
+  "rollback_or_recovery": "",
+  "operations": [
+    {
+      "idempotency_key": "",
+      "status": "unknown",
+      "receipt": "",
+      "observed_at": ""
+    }
+  ]
+}

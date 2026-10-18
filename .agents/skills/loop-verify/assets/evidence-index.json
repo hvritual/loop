@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "spec_sha256": "",
+  "acceptance": {
+    "AC-1": ".planning/evidence/REPLACE/result.json"
+  }
+}

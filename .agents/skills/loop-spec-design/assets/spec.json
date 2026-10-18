@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "intent_sha256": "",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "behavior": "",
+      "outcomes": [
+        "OUT-1"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-1",
+          "given": "",
+          "when": "",
+          "then": "",
+          "kind": "normal",
+          "check": "unit"
+        }
+      ]
+    }
+  ]
+}

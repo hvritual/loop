@@ -1,0 +1,1 @@
+Read `AGENTS.md` and `.agents/skills/loop/SKILL.md` before acting. These are the canonical instructions; do not maintain a separate rule copy. Native GSD installation for this client is not certified by this repository.

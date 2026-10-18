@@ -1,0 +1,6 @@
+# Enforcement requires an actually enabled ruleset and an available independent reviewer.
+/AGENTS.md @hvritual
+/.loop/ @hvritual
+/.agents/skills/ @hvritual
+/scripts/ @hvritual
+/.github/ @hvritual

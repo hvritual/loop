@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "spec_sha256": "",
+  "architecture": {
+    "path": "",
+    "sha256": ""
+  },
+  "journeys": {
+    "path": "",
+    "sha256": ""
+  },
+  "failure_recovery": {
+    "path": "",
+    "sha256": ""
+  },
+  "test_strategy": {
+    "path": "",
+    "sha256": ""
+  },
+  "risk_treatments": [],
+  "preview": {
+    "path": "",
+    "sha256": ""
+  },
+  "approval": {
+    "authority": "human",
+    "actor": "",
+    "source": "",
+    "subject_sha256": ""
+  }
+}

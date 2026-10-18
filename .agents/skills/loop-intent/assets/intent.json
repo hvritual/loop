@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "REPLACE-ID",
+  "original_request": "",
+  "actor": "",
+  "scenario": "",
+  "problem": "",
+  "desired_outcome": "",
+  "risk": "standard",
+  "ui": false,
+  "delivery_target": "pull_request",
+  "success_metrics": [
+    {
+      "id": "OUT-1",
+      "measure": "",
+      "target": "",
+      "baseline": "unmeasured",
+      "baseline_plan": "",
+      "method": ""
+    }
+  ],
+  "in_scope": [],
+  "out_of_scope": [],
+  "constraints": [],
+  "alternatives": [
+    {
+      "option": "",
+      "tradeoff": ""
+    }
+  ],
+  "recommendation": "",
+  "evidence": [
+    {
+      "id": "EV-1",
+      "claim": "",
+      "source": "",
+      "status": "unknown"
+    }
+  ],
+  "open_questions": [],
+  "approval": {
+    "authority": "human",
+    "actor": "",
+    "source": "",
+    "subject_sha256": ""
+  }
+}
