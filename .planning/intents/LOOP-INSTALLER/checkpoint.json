@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "projection_only": true,
+  "intent_id": "LOOP-INSTALLER",
+  "next_action": "Read latest PR #4 head and CI; perform independent review and authorized integration. Do not repeat completed installer implementation.",
+  "captured_at": "2026-10-18T05:38:08.022563+00:00",
+  "git_head": "",
+  "source_sha256": "34ac5cc51a5f58ffa66cce0928f9fd3a03694f2d17ce65e00dd9330213683cc8",
+  "references": {
+    ".loop/rules.json": "c9e1e57d1fe0fd0a5e31ffeb0647617a2bd84f63e813bc64469cf0d5ee12748d",
+    ".planning/PROJECT.md": "7e1fccb9068ed0bbf58a25bf53cdf2eb0bb9d7816d24b81789e4d2d62a82642c",
+    ".planning/REQUIREMENTS.md": "8c6084f079f6469da0c02dd16e48e4314d0c4bc7046a6ddcc9d14fd56573c8b5",
+    ".planning/ROADMAP.md": "01adf168b4ca72b060696f7df0957b52ceced51d25261dab0aa7e4e8154e6cdb",
+    ".planning/STATE.md": "5b533091660b9d3532b6941d157f6009dd8d1afba290024846edf42b67cee37c",
+    ".planning/intents/LOOP-INSTALLER/architecture.md": "3778a1f283d2ef93b5594e4840c3cc6b0d4a044f9b2b975d1063d13c14e4b0d2",
+    ".planning/intents/LOOP-INSTALLER/ci-receipt.json": "15d05c5c7b0d0aec9266368dceca38e29d929625d111625b08a51c9317b86627",
+    ".planning/intents/LOOP-INSTALLER/design.json": "6bd63050535e610467504f5589e90ede5d604e45b8be00383da2443bc455885a",
+    ".planning/intents/LOOP-INSTALLER/evidence-index.json": "ed8ef3306376d07569c472dd3513d388481628fc98e74fd8c2bded66ad8314dc",
+    ".planning/intents/LOOP-INSTALLER/failure-recovery.md": "2fd6d1e1155b0b3a4f7470a0966e4064e80ceb6312a1e531278cad4e747efbe9",
+    ".planning/intents/LOOP-INSTALLER/intent.json": "832f1cc53efb8e8c40a717e7f5ae67f9b5073c14d29ae5d795eb2293ee80ef29",
+    ".planning/intents/LOOP-INSTALLER/journeys.md": "efc6629fc9cb0d1beb5282da4528794749a8b4091eea2739c9d5e3fae93b2694",
+    ".planning/intents/LOOP-INSTALLER/plan-map.json": "38128e92e1ff07321d7f06494da2095680c14476af3c5898df5275bf2e1cd3fd",
+    ".planning/intents/LOOP-INSTALLER/spec.json": "9278e12b3a21e7ce2c5581fd001040901facb71e3f48a7ac4e1419a9dc9c0357",
+    ".planning/intents/LOOP-INSTALLER/test-strategy.md": "07ec4f8415845e827ce8174b7a7233e9a57dcbe5b07be864463814040e9056d8",
+    ".planning/phases/03-cross-project-installer/03-01-PLAN.md": "c38d04347c1c7ea2e637e41e41a9d7ea8597862641e19d32defd17f3a1757ed7",
+    "AGENTS.md": "e110ce725ecc596ea06792ee154b9fb9d7b8b8611d6bfda41da9887b49432a66"
+  },
+  "dirty_at_capture": true
+}
