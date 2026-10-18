@@ -2,37 +2,41 @@
 gsd_state_version: '1.0'
 status: executing
 progress:
-  total_phases: 2
-  completed_phases: 0
-  total_plans: 1
-  completed_plans: 0
-  percent: 0
+  total_phases: 3
+  completed_phases: 1
+  total_plans: 2
+  completed_plans: 1
+  percent: 50
 ---
 # Project State
 
 ## Project Reference
-See: .planning/PROJECT.md (updated 2026-10-18)
+See: .planning/PROJECT.md
+Current intent: LOOP-INSTALLER.
 Core value: evidenced, resumable intent-to-outcome delivery.
-Current intent: LOOP-BOOTSTRAP.
 
 ## Current Position
-Phase: 1 of 2 (Workflow package)
+Phase: 3 of 3 (Cross-project distribution)
 Plan: 1 of 1 in current phase
-Status: In progress — implementation candidate in PR #1; independent review pending.
-Last activity: 2026-10-18 — initial GitHub contracts and three native installers passed. Strengthened evidence to bind intent/spec/design/plan; 66 local tests now pass. Recheck final PR head CI before merge decisions.
+Status: Implemented and CI-verified candidate; PR #4 integration/independent review pending.
+Last activity: 2026-10-18 — distribution run39100387213 passed all native/portable/GitHub-entry checks on0934588. Finishing persisted checks and source-exact handoff; read latest PR head before merge decisions.
+
+## Reconciled History
+PR #1 was explicitly authorized and merged into main as01dab3068c2f5810e3220541c8afabaead8007e3. The old instruction to wait for PR #1 merge was stale and has been corrected; this does not fabricate closure of Issues #2/#3.
 
 ## Accumulated Context
-### Decisions
-- GSD 1.17.0 owns native progress; BMAD 6.12.4 is advisory. Pins are in .loop/upstreams.lock.json.
-- No self-developed runtime service, no second task state, no fabricated external evidence.
-- PR #1 is the reversible implementation candidate, not final acceptance of the entire goal.
-### Blockers/Concerns
-- Issue #2: real independent review and Administration-backed platform rule activation.
-- Issue #3: real-model semantic evaluation and actual model-switch continuation pilot.
-- Do not auto-merge, claim live model success or substitute fixture reviewers.
+- GSD remains the only progress namespace; this file is a reconciled handoff, not evidence that a GSD agent was invoked in this implementation session.
+- Loop0.2.0 distributes files through a package CLI; no second scheduler or runtime service.
+- Project configuration and .planning are project-owned. Conflicts stop; no forced overwrite.
+- Native compatibility was tested, model accounts were not used. npm registry publication and new main merge are not authorized by an installed package.
+
+## Blockers / Decisions
+- PR #4: independent review and merge decision remain outstanding.
+- Issue #2: platform controls and genuine independent review.
+- Issue #3: real semantic/model-switch pilot; not satisfied by installer tests.
 
 ## Session Continuity
 Last session: 2026-10-18
-Stopped at: evidence-binding hardening, current check capture and PR handoff.
-Resume file: .planning/intents/LOOP-BOOTSTRAP/checkpoint.json
-Next safe action: read back PR #1 head and CI; then resolve Issues #2/#3 using actual authority and accounts.
+Stopped at: final verification evidence capture and PR #4 handoff.
+Resume file: .planning/intents/LOOP-INSTALLER/checkpoint.json
+Next safe action: read PR #4 latest head/CI; review candidate and resolve authorized integration, without repeating completed installer development or silently changing the rules.

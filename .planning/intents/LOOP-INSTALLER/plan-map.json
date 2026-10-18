@@ -1,0 +1,42 @@
+{
+  "spec_sha256": "9278e12b3a21e7ce2c5581fd001040901facb71e3f48a7ac4e1419a9dc9c0357",
+  "design_sha256": "6bd63050535e610467504f5589e90ede5d604e45b8be00383da2443bc455885a",
+  "plans": [
+    {
+      "id": "03-01",
+      "path": ".planning/phases/03-cross-project-installer/03-01-PLAN.md",
+      "sha256": "c38d04347c1c7ea2e637e41e41a9d7ea8597862641e19d32defd17f3a1757ed7",
+      "acceptance": [
+        "AC-01",
+        "AC-02",
+        "AC-03",
+        "AC-04",
+        "AC-05",
+        "AC-06",
+        "AC-07",
+        "AC-08",
+        "AC-09",
+        "AC-10"
+      ],
+      "depends_on": [],
+      "allowed_paths": [
+        "bin",
+        "distribution",
+        "scripts",
+        "tests",
+        "package.json",
+        "docs",
+        "README.md",
+        ".github/workflows/distribution.yml",
+        ".loop/checks.json",
+        ".planning"
+      ],
+      "checks": [
+        "installer",
+        "unit",
+        "lint",
+        "distribution-ci"
+      ]
+    }
+  ]
+}

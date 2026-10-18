@@ -27,6 +27,24 @@
         "scripts/demo.py"
       ],
       "timeout_seconds": 120
+    },
+    "installer": {
+      "argv": [
+        "{python}",
+        "-m",
+        "unittest",
+        "tests.test_installer",
+        "tests.test_distribution_regressions",
+        "-v"
+      ],
+      "timeout_seconds": 180
+    },
+    "distribution-ci": {
+      "argv": [
+        "{python}",
+        "tests/validate_distribution_receipt.py"
+      ],
+      "timeout_seconds": 30
     }
   }
 }

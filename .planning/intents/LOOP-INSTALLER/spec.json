@@ -1,0 +1,94 @@
+{
+  "intent_sha256": "832f1cc53efb8e8c40a717e7f5ae67f9b5073c14d29ae5d795eb2293ee80ef29",
+  "requirements": [
+    {
+      "id": "REQ-INSTALL",
+      "behavior": "Versioned safe project-scoped lifecycle with evidence-bearing readiness",
+      "outcomes": [
+        "O1"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-01",
+          "given": "A Git project with the relevant fixture or real upstream environment",
+          "when": "Run the documented lifecycle command",
+          "then": "Install full framework into a clean Git workspace without copying source task state",
+          "kind": "normal",
+          "check": "installer"
+        },
+        {
+          "id": "AC-02",
+          "given": "A Git project with the relevant fixture or real upstream environment",
+          "when": "Run the documented lifecycle command",
+          "then": "Merge entry blocks while retaining project config, other skills and business files",
+          "kind": "normal",
+          "check": "installer"
+        },
+        {
+          "id": "AC-03",
+          "given": "A Git project with the relevant fixture or real upstream environment",
+          "when": "Run the documented lifecycle command",
+          "then": "Second identical install performs zero target file writes",
+          "kind": "normal",
+          "check": "installer"
+        },
+        {
+          "id": "AC-04",
+          "given": "A Git project with the relevant fixture or real upstream environment",
+          "when": "Run the documented lifecycle command",
+          "then": "Update only untouched owned files and preserve project settings",
+          "kind": "normal",
+          "check": "installer"
+        },
+        {
+          "id": "AC-05",
+          "given": "A Git project with the relevant fixture or real upstream environment",
+          "when": "Run the documented lifecycle command",
+          "then": "Modified owned/unowned conflicting files are refused before mutation",
+          "kind": "failure",
+          "check": "installer"
+        },
+        {
+          "id": "AC-06",
+          "given": "A Git project with the relevant fixture or real upstream environment",
+          "when": "Run the documented lifecycle command",
+          "then": "Interrupted writes can be rolled back without overwriting later edits",
+          "kind": "recovery",
+          "check": "installer"
+        },
+        {
+          "id": "AC-07",
+          "given": "A Git project with the relevant fixture or real upstream environment",
+          "when": "Run the documented lifecycle command",
+          "then": "Uninstall removes untouched managed files only and preserves task history",
+          "kind": "normal",
+          "check": "installer"
+        },
+        {
+          "id": "AC-08",
+          "given": "A Git project with the relevant fixture or real upstream environment",
+          "when": "Run the documented lifecycle command",
+          "then": "Reject symlink/path escape and concurrent installers",
+          "kind": "security",
+          "check": "installer"
+        },
+        {
+          "id": "AC-09",
+          "given": "A Git project with the relevant fixture or real upstream environment",
+          "when": "Run the documented lifecycle command",
+          "then": "Doctor distinguishes installation, native compatibility and business readiness",
+          "kind": "normal",
+          "check": "installer"
+        },
+        {
+          "id": "AC-10",
+          "given": "GitHub-run native jobs and a connector-read receipt bound to the release input hashes",
+          "when": "Verify real job outcomes and validate the captured receipt against current release inputs",
+          "then": "Three real native adapters are staged and verified through packaged CLI",
+          "kind": "normal",
+          "check": "distribution-ci"
+        }
+      ]
+    }
+  ]
+}

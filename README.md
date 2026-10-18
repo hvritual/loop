@@ -4,6 +4,20 @@
 
 这是可安装的仓库工作流与 Skills 集成包，不是新开发的 Orchestrator、后台服务或模型 API。业务开发由已有 Coding Agent + GSD 执行。Python 脚本只做契约校验、执行证据采集和上下文交接。
 
+## 安装到其他项目（0.2.0）
+
+跨项目生命周期使用 `loop install / doctor / update / uninstall / recover`，而不是复制本仓库的 `.planning/`。
+
+```sh
+# 从这个源包接入已存在的目标 Git 仓库
+node bin/loop.cjs install --project /path/to/your-project --runtime codex
+
+# 检查、升级和卸载均有项目级文件归属与冲突保护
+node bin/loop.cjs doctor --project /path/to/your-project
+```
+
+发布渠道是固定 GitHub 提交或 `npm pack` 产物，**尚未发布 npm registry**。完整的一键 GitHub 命令、依赖、离线模式、升级/恢复和验证边界见 [跨项目安装](docs/INSTALLATION.md)。不要执行未发布的 `npx @hvritual/loop@0.2.0`。
+
 ## 从这里开始
 
 环境：Git、Python 3.11+。安装上游还需要 Node.js 22+、npm、uv 和网络。
@@ -14,7 +28,7 @@ python -m unittest discover -s tests -v
 python scripts/loop.py lint
 python scripts/demo.py
 
-# 在目标仓库安装固定版本的原生工作流（选一个客户端）
+# 仅在 Loop 自身源码工作区初始化固定版本上游（跨项目用上面的 CLI）
 python scripts/bootstrap.py --runtime codex
 # 或 --runtime claude / --runtime opencode
 python scripts/bootstrap.py --runtime codex --doctor

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "id": "LOOP-INSTALLER",
+  "original_request": "按照建议完成任务：将 Loop 安全一键接入不同项目",
+  "actor": "A project maintainer using a supported coding client",
+  "scenario": "Adopt or upgrade Loop in an existing Git repository without replacing application assets",
+  "problem": "Bootstrap assumes Loop files already exist and lacks cross-project ownership, reversible upgrades and distributable CLI",
+  "desired_outcome": "One versioned command installs portable workflow capabilities while preserving project configuration and progress",
+  "recommendation": "Thin npm launcher + Python lifecycle manager; staged official upstream installers; ownership manifest and guarded journal; GitHub source distribution",
+  "delivery_target": "pull_request",
+  "risk": "standard",
+  "ui": false,
+  "in_scope": [
+    "install/doctor/update/uninstall/recover/dry-run",
+    "package whitelist and executable GitHub package",
+    "safe merge and local project config",
+    "native upstream staging and three client integration tests",
+    "failure/upgrade/uninstall regression tests"
+  ],
+  "out_of_scope": [
+    "new orchestration service",
+    "npm registry publication without credentials",
+    "automatic main merge",
+    "production deployment",
+    "live model evaluation or platform rule activation"
+  ],
+  "constraints": [
+    "No application code overwrite",
+    "No imported .planning state",
+    "No user skill removal based only on prefix",
+    "No automatic execution of discovered business commands"
+  ],
+  "success_metrics": [
+    {
+      "id": "O1",
+      "measure": "Cross-project lifecycle scenarios",
+      "target": "All declared scenarios pass",
+      "baseline": "bootstrap only; no lifecycle installer",
+      "method": "Deterministic unit tests plus real packed-package integration"
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Copy the full repository",
+      "tradeoff": "Rejected: imports project progress and generic scripts, clobbers files"
+    },
+    {
+      "option": "Skill-only installation",
+      "tradeoff": "Rejected as complete solution: omits scripts, config and upstream compatibility"
+    },
+    {
+      "option": "New workflow runtime",
+      "tradeoff": "Rejected: unrelated to distribution and adds maintenance"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "claim": "Bootstrap reads lock and skills from target",
+      "source": "scripts/bootstrap.py at baseline",
+      "status": "verified"
+    },
+    {
+      "id": "E2",
+      "claim": "Default checks are framework self-tests",
+      "source": ".loop/checks.json at baseline",
+      "status": "verified"
+    },
+    {
+      "id": "E3",
+      "claim": "npm exec supports running remote package bins",
+      "source": "https://docs.npmjs.com/cli/v11/commands/npm-exec/",
+      "status": "verified"
+    }
+  ],
+  "open_questions": [
+    {
+      "question": "Public registry publishing identity is not available",
+      "blocking": false,
+      "owner": "maintainer",
+      "resolution_plan": "Ship verified npm tarball and pinned GitHub package path; do not claim registry publication"
+    }
+  ],
+  "approval": {
+    "actor": "user",
+    "authority": "human",
+    "source": ".planning/requests/cross-project-installer.md",
+    "subject_sha256": "6c47655ad9453900e9b89f799fd2429230a5a2ae80dc00ee8f5fe4c2f94026c1"
+  }
+}
