@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.loop-cache/
+node_modules/
+_bmad/
+_bmad-output/
+.agents/skills/bmad-*/
+.agents/skills/gsd-*/
+.claude/
+.codex/
+.opencode/
+.gemini/
+.env
+.env.*
+!.env.example

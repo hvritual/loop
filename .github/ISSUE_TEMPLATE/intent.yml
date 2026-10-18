@@ -1,0 +1,27 @@
+name: Business intent
+description: Start discovery without pretending the solution is already known.
+title: "[Intent] "
+body:
+  - type: textarea
+    id: intent
+    attributes:
+      label: What result should change, and for whom?
+      description: A rough intention is enough. Separate desired outcome from a proposed feature when possible.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Existing context and evidence
+      description: Current behavior, documents, examples, constraints; do not include secrets.
+  - type: dropdown
+    id: delivery
+    attributes:
+      label: Requested delivery boundary
+      options:
+        - Clarify and propose first
+        - Implement and prepare a pull request
+        - Staging delivery subject to explicit access and approval
+        - Production delivery subject to explicit access and approval
+    validations:
+      required: true

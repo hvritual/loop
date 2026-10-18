@@ -1,0 +1,30 @@
+{
+  "kind": "github_ci_readback",
+  "head_sha": "c5310b0d4d8cba7d0ebfdd807d6c58896bf1d493",
+  "run_url": "https://github.com/hvritual/loop/actions/runs/39088817475",
+  "api_source": "https://api.github.com/repos/hvritual/loop/actions/runs/39088817475/jobs",
+  "read_at": "2026-10-18T02:06:00Z",
+  "jobs": [
+    {
+      "name": "contracts",
+      "id": 117560941804,
+      "conclusion": "success"
+    },
+    {
+      "name": "upstream-claude",
+      "id": 117560941953,
+      "conclusion": "success"
+    },
+    {
+      "name": "upstream-opencode",
+      "id": 117560941979,
+      "conclusion": "success"
+    },
+    {
+      "name": "upstream-codex",
+      "id": 117560942025,
+      "conclusion": "success"
+    }
+  ],
+  "scope": "Actual contract tests and native installer/doctor checks, not live model reasoning. Applies to this recorded commit; later heads need their own CI."
+}

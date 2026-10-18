@@ -1,0 +1,11 @@
+{
+  "independent_review": "not_run",
+  "platform_ruleset": "not_applied",
+  "live_model_pilot": "not_run",
+  "pr": "https://github.com/hvritual/loop/pull/1",
+  "issues": [
+    "https://github.com/hvritual/loop/issues/2",
+    "https://github.com/hvritual/loop/issues/3"
+  ],
+  "not_a_second_task_state": true
+}
