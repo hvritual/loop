@@ -101,3 +101,22 @@ def unique(items: list[dict], label: str) -> set[str]:
     require(len(ids) == len(items) and all(nonempty(i) for i in ids), f'{label} need IDs')
     require(len(set(ids)) == len(ids), f'Duplicate {label} IDs')
     return set(ids)
+
+
+def contract_files(root: Path, base: str) -> list[str]:
+    """Upstream inputs only: exclude evidence indexes/checkpoints to avoid cycles."""
+    refs={base+'/'+name for name in ('intent.json','spec.json','design.json','plan-map.json') if resolve(root,base+'/'+name).is_file()}
+    if base+'/design.json' in refs:
+        design=read(root,base+'/design.json')
+        for key in ('architecture','journeys','failure_recovery','test_strategy','preview'):
+            ref=design.get(key,{})
+            if ref.get('path'): refs.add(ref['path'])
+    if base+'/plan-map.json' in refs:
+        for plan in read(root,base+'/plan-map.json').get('plans',[]):
+            if plan.get('path'): refs.add(plan['path'])
+    return sorted(refs)
+
+def contract_digest(root: Path, base: str) -> str:
+    refs=contract_files(root,base)
+    require(base+'/intent.json' in refs,'Intent is required for contract-bound evidence')
+    return stable({p:digest(root,p) for p in refs})

@@ -35,7 +35,7 @@ def main() -> int:
     sub=parser.add_subparsers(dest='command',required=True)
     sub.add_parser('lint')
     g=sub.add_parser('gate'); g.add_argument('target'); g.add_argument('stage',choices=STAGES)
-    e=sub.add_parser('evidence'); e.add_argument('check')
+    e=sub.add_parser('evidence'); e.add_argument('check'); e.add_argument('--intent')
     r=sub.add_parser('resume'); r.add_argument('target')
     c=sub.add_parser('checkpoint'); c.add_argument('target'); c.add_argument('--next',required=True)
     l=sub.add_parser('learning'); l.add_argument('path')
@@ -44,9 +44,9 @@ def main() -> int:
         if args.command=='lint': result=lint(root)
         elif args.command=='gate': result=gate(root,args.target,args.stage)
         elif args.command=='evidence':
-            result=capture(root,args.check)
+            result=capture(root,args.check,args.intent)
             print(json.dumps(result,ensure_ascii=False,indent=2))
-            return 0 if result['exit_code']==0 and result['source_unchanged'] else 1
+            return 0 if result['exit_code']==0 and result['source_unchanged'] and result['contract_unchanged'] else 1
         elif args.command=='resume': result=resume(root,args.target)
         elif args.command=='checkpoint': result=checkpoint(root,args.target,args.next)
         else:

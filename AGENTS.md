@@ -21,7 +21,7 @@ GSD alone updates native progress. BMAD analysis may challenge goals but cannot 
 Load only the current phase skill. Investigate facts autonomously. Ask people for value/risk/authority decisions, with evidence and a recommendation, not repeated questionnaires.
 Run the phase gate before moving forward. A missing artifact, failed check or unknown external outcome is NOT success.
 No fabricated approvals, independent reviews, browser tests, installations or deployment evidence.
-Use `python scripts/loop.py evidence <CHECK-ID>` to capture approved checks.
+Use `python scripts/loop.py evidence <CHECK-ID> --intent <ID>` to capture approved checks.
 On failure use bounded diagnosis; do not weaken rules/tests to make the gate green.
 
 ## Completion / handoff

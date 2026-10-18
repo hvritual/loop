@@ -9,7 +9,7 @@ description: Check implementation against every acceptance criterion using curre
 Spec/design/plan mapping, code, raw check output, native GSD summaries.
 
 ## Procedure
-1. Run all required checks from the reviewed registry. Bind each acceptance ID to a real result.json in `evidence-index.json` using `assets/evidence-index.json`.
+1. Run all required checks from the reviewed registry using `evidence <CHECK-ID> --intent <ID>`; acceptance evidence must bind the exact upstream intent/spec/design/plan inputs. Bind each acceptance ID to a real result.json in `evidence-index.json` using `assets/evidence-index.json`.
 2. Pass `verify`. Missing, failed, wrong-command, modified or stale evidence is failure. Regenerate evidence after source/rules/tests/spec changes.
 3. Invoke native GSD verification and installed `bmad-review` as appropriate. The second reviewer gets the frozen goal/spec/diff/evidence, not an instruction to defend the implementer's conclusions.
 4. Review scope, actual user journey, error/recovery states, architecture, security and test meaning. A passing broad unit suite does not alone prove that every acceptance behavior was tested.

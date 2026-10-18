@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "intent_sha256": "a5852de12f4f66d877bf64874613673260597b8e62d8620f424bfad2547e254e",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "behavior": "提供单一规则来源和可按阶段加载的技能，GSD维护唯一进度",
+      "outcomes": [
+        "OUT-1"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-1",
+          "given": "仓库包含完整流程包",
+          "when": "执行lint",
+          "then": "12规则/9技能通过结构检查",
+          "kind": "normal",
+          "check": "lint"
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "behavior": "拒绝缺失/过期/错误绑定的验收证据与无依据泛化",
+      "outcomes": [
+        "OUT-2"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-2",
+          "given": "有效及故意破坏的契约样本",
+          "when": "执行unit",
+          "then": "正常路径通过，破坏路径被拒绝；不将合成身份作为真实审查",
+          "kind": "failure",
+          "check": "unit"
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "behavior": "从持久化产物恢复，遇到变化或不确定副作用先对账",
+      "outcomes": [
+        "OUT-3"
+      ],
+      "acceptance": [
+        {
+          "id": "AC-3",
+          "given": "有检查点的Git工作区",
+          "when": "执行demo及其恢复场景",
+          "then": "正常恢复且修改源码后转为reconcile",
+          "kind": "recovery",
+          "check": "demo"
+        }
+      ]
+    }
+  ]
+}

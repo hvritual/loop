@@ -2,7 +2,7 @@
 from __future__ import annotations
 from datetime import datetime, timezone
 from pathlib import Path
-from scripts.common import ContractError, require, nonempty, resolve, read, digest, stable, source_digest, target_dir, unique
+from scripts.common import ContractError, require, nonempty, resolve, read, digest, stable, source_digest, target_dir, unique, contract_digest
 
 STAGES = ('discover', 'specify', 'design', 'plan', 'verify', 'review', 'release', 'close')
 
@@ -147,7 +147,9 @@ def verification(root: Path, base: str, spec: dict) -> None:
     criteria = {a['id']:a for r in spec['requirements'] for a in r['acceptance']}
     require(set(obj.get('acceptance',{})) == set(criteria), 'Every acceptance criterion needs current evidence; no extras')
     for ac,reference in obj['acceptance'].items():
-        evidence(root,reference,criteria[ac]['check'])
+        record=evidence(root,reference,criteria[ac]['check'])
+        require(record.get('intent_id') == base.rsplit('/',1)[-1], 'Evidence belongs to another or unspecified intent')
+        require(record.get('contract_unchanged') is True and record.get('contract_sha256') == contract_digest(root,base), 'Evidence is stale for current intent/spec/design/plan inputs')
 
 def review(root: Path, base: str) -> None:
     obj = read(root,base+'/review.json')

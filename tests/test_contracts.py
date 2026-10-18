@@ -78,6 +78,21 @@ class Contracts(unittest.TestCase):
     def test_no_test_evidence(self): self.fails('verify','Missing artifact')
     def test_real_command_evidence(self):
         result=verified(self.root); self.assertEqual(result['exit_code'],0); self.assertEqual(gate(self.root,ID,'verify')['result'],'pass')
+    def test_rebinding_spec_cannot_reuse_old_evidence(self):
+        verified(self.root)
+        self.edit('spec.json',lambda o:o['requirements'][0].update(behavior='A different approved behavior'))
+        self.edit('design.json',lambda o:o.update(spec_sha256=digest(self.root,BASE+'/spec.json')))
+        self.edit('plan-map.json',lambda o:o.update(spec_sha256=digest(self.root,BASE+'/spec.json'),design_sha256=digest(self.root,BASE+'/design.json')))
+        self.edit('evidence-index.json',lambda o:o.update(spec_sha256=digest(self.root,BASE+'/spec.json')))
+        self.fails('verify','intent/spec/design/plan')
+    def test_unbound_evidence_cannot_prove_acceptance(self):
+        result=capture(self.root,'unit')
+        write(self.root,BASE+'/evidence-index.json',{'spec_sha256':digest(self.root,BASE+'/spec.json'),'acceptance':{a:result['evidence'] for a in ('AC-1','AC-2','AC-3')}})
+        self.fails('verify','unspecified intent')
+    def test_resume_detects_referenced_design_change(self):
+        checkpoint(self.root,ID,'Continue')
+        text(self.root,BASE+'/design.md','Changed design without updating its index')
+        self.assertIn(BASE+'/design.md',resume(self.root,ID)['changed'])
     def test_failed_command(self):
         result=capture(self.root,'fail'); self.assertEqual(result['exit_code'],2)
     def test_stale_evidence_on_code_change(self):

@@ -48,7 +48,7 @@ Loop 自有 Skills 的权威目录是 `.agents/skills/loop*/`。Claude 使用生
 ```sh
 python scripts/loop.py gate <ID> discover
 python scripts/loop.py gate <ID> plan
-python scripts/loop.py evidence unit
+python scripts/loop.py evidence unit --intent <ID>
 python scripts/loop.py gate <ID> verify
 python scripts/loop.py checkpoint <ID> --next "核对 PR 的当前 CI，然后继续下一计划"
 python scripts/loop.py resume <ID>

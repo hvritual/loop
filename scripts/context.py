@@ -2,7 +2,7 @@
 from __future__ import annotations
 from datetime import datetime, timezone
 from pathlib import Path
-from scripts.common import read, write, require, resolve, digest, source_digest, git, target_dir
+from scripts.common import read, write, require, resolve, digest, source_digest, git, target_dir, contract_files
 
 def checkpoint(root: Path, target: str, next_action: str) -> dict:
     base=target_dir(target)
@@ -12,6 +12,7 @@ def checkpoint(root: Path, target: str, next_action: str) -> dict:
     refs=['AGENTS.md','.loop/rules.json','.planning/STATE.md','.planning/ROADMAP.md']
     refs += [p for p in ('.planning/PROJECT.md','.planning/REQUIREMENTS.md') if resolve(root,p).is_file()]
     refs += [p.relative_to(root).as_posix() for p in resolve(root,base).glob('*.json') if p.name!='checkpoint.json']
+    refs=sorted(set(refs) | set(contract_files(root,base)))
     record={'schema_version':1,'projection_only':True,'intent_id':target,'next_action':next_action,'captured_at':datetime.now(timezone.utc).isoformat(),'git_head':git(root,'rev-parse','HEAD',optional=True),'source_sha256':source_digest(root),'references':{p:digest(root,p) for p in refs},'dirty_at_capture':bool(git(root,'status','--porcelain'))}
     write(root,base+'/checkpoint.json',record)
     return record
@@ -29,8 +30,8 @@ def resume(root: Path, target: str) -> dict:
     for ref,sha in cp['references'].items():
         if not resolve(root,ref).is_file() or digest(root,ref)!=sha:
             changed.append(ref)
-    current_artifacts={p.relative_to(root).as_posix() for p in resolve(root,base).glob('*.json') if p.name!='checkpoint.json'}
-    captured_artifacts={p for p in cp['references'] if p.startswith(base+'/') and p.endswith('.json')}
+    current_artifacts={p.relative_to(root).as_posix() for p in resolve(root,base).glob('*.json') if p.name!='checkpoint.json'} | set(contract_files(root,base))
+    captured_artifacts=set(cp['references'])
     changed.extend(sorted(current_artifacts - captured_artifacts))
     if source_digest(root)!=cp['source_sha256']: changed.append('source/rules/tests')
     # An uncertain external side effect is never a safe retry instruction.

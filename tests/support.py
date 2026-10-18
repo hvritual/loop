@@ -42,7 +42,7 @@ def create(root: Path) -> dict:
     return {'intent':idea,'spec':spec,'design':design,'plans':plans}
 
 def verified(root: Path) -> dict:
-    record=capture(root,'unit')
+    record=capture(root,'unit',ID)
     write(root,BASE+'/evidence-index.json',{'spec_sha256':digest(root,BASE+'/spec.json'),'acceptance':{a:record['evidence'] for a in ('AC-1','AC-2','AC-3')}})
     return record
 

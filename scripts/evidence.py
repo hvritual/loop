@@ -5,9 +5,9 @@ from pathlib import Path
 import subprocess
 import sys
 import uuid
-from scripts.common import require, read, resolve, write, digest, stable, source_digest, git
+from scripts.common import require, read, resolve, write, digest, stable, source_digest, git, target_dir, contract_digest
 
-def capture(root: Path, check: str) -> dict:
+def capture(root: Path, check: str, target: str | None = None) -> dict:
     config=read(root,'.loop/checks.json')['checks']
     require(check in config,'Unknown check; register and review it before execution')
     definition=config[check]
@@ -20,6 +20,7 @@ def capture(root: Path, check: str) -> dict:
     relative='.planning/evidence/'+run_id
     directory=resolve(root,relative); directory.mkdir(parents=True,exist_ok=False)
     before=source_digest(root)
+    inputs=contract_digest(root,target_dir(target)) if target else None
     timed_out=False
     with (directory/'output.log').open('wb') as log:
         try:
@@ -31,5 +32,6 @@ def capture(root: Path, check: str) -> dict:
             log.write(str(exc).encode()); code=127
     after=source_digest(root)
     record={'schema_version':1,'kind':'command_execution','id':run_id,'check':check,'argv':argv,'exit_code':code,'timed_out':timed_out,'source_sha256':before,'source_unchanged':before==after,'git_head':git(root,'rev-parse','HEAD',optional=True),'check_definition_sha256':stable(definition),'recorded_at':datetime.now(timezone.utc).isoformat(),'log':relative+'/output.log','log_sha256':digest(root,relative+'/output.log')}
+    record.update(intent_id=target,contract_sha256=inputs,contract_unchanged=(inputs==contract_digest(root,target_dir(target)) if target else True))
     write(root,relative+'/result.json',record)
     return {'evidence':relative+'/result.json',**record}
