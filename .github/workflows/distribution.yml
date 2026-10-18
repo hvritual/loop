@@ -26,10 +26,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: python -m unittest tests.test_installer -v
+      - run: python -m unittest tests.test_installer tests.test_distribution_regressions -v
       - run: mkdir -p .loop-cache && npm pack --pack-destination .loop-cache
         shell: bash
-        working-directory: ${{ github.workspace }}
       - run: python tests/package_smoke.py .loop-cache/hvritual-loop-0.2.0.tgz
       - uses: actions/upload-artifact@v4
         if: always()
@@ -86,7 +85,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/consumer"
           cd "$RUNNER_TEMP/consumer"
           git init -q
-          npx --yes --package="github:hvritual/loop#$SOURCE_SHA" loop install --project . --runtime codex --skip-upstreams
+          npx --yes --package="https://github.com/hvritual/loop/archive/$SOURCE_SHA.tar.gz" loop install --project . --runtime codex --skip-upstreams
           node .loop/core/bin/loop.cjs doctor --project .
           node .loop/core/bin/loop.cjs uninstall --project .
   source:

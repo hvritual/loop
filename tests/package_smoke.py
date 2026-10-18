@@ -18,7 +18,11 @@ def execute(argv,cwd=None,expect=0):
             target=Path(argv[argv.index('--project')+1])
             for log in (target/'.loop-cache').glob('upstream-*.log'):
                 logs+='\n'+log.name+'\n'+log.read_text(encoding='utf-8',errors='replace')[-6000:]
-        raise RuntimeError(f'{argv}: exit {p.returncode}\n{p.stdout}\n{p.stderr}\n{logs}')
+        out=p.stdout
+        try:
+            diagnostic=json.loads(out);diagnostic.pop('changed_files',None);out=json.dumps(diagnostic,ensure_ascii=False)
+        except ValueError:pass
+        raise RuntimeError(f'{argv}: exit {p.returncode}\n{out}\n{p.stderr}\n{logs}')
     return json.loads(p.stdout) if p.stdout.strip().startswith('{') else p.stdout
 
 
@@ -41,7 +45,7 @@ def main():
         assert (target/'.planning/STATE.md').read_text()=='PROJECT PROGRESS'
         assert (target/'scripts/loop.py').read_text()=='BUSINESS SCRIPT'
         second=execute(cmd+['install','--project',target]+flags)
-        assert second['changed_files']==[], 'Repeated install was not a no-op'
+        assert second['changed_files']==[], 'Repeated install changed: '+str(second['changed_files'])
         doctor=execute(cmd+['doctor','--project',target]+(['--require-native'] if args.runtime else []))
         assert doctor['project_acceptance']=='needs_configuration'
         execute(cmd+['doctor','--project',target,'--require-project-checks'],expect=1)

@@ -20,7 +20,6 @@ def node_npx():
     p=subprocess.run([node,'--version'],capture_output=True,text=True,timeout=10)
     check(p.returncode==0 and int(p.stdout.strip().lstrip('v').split('.')[0])>=22,'Native setup requires Node.js 22+')
     check(shutil.which('uv'),'Native setup requires uv; install it explicitly first')
-    # Avoid passing arguments through cmd.exe; locate npm's Node entry on Windows.
     if os.name=='nt':
         parent=Path(npx).parent
         choices=[parent/'node_modules/npm/bin/npx-cli.js',Path(node).parent/'node_modules/npm/bin/npx-cli.js']
@@ -46,9 +45,8 @@ def stage_upstreams(root,source,runtimes,core_files):
     prefix=node_npx()
     from scripts.bootstrap import commands,constrain_bmad,wrappers,doctor
     cache=root/'.loop-cache';cache.mkdir(exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='stage-',dir=cache) as name:
+    with tempfile.TemporaryDirectory(prefix='loop-native-') as name:
         stage=Path(name)
-        # Upstream installers see a fresh target, never user configuration/history.
         subprocess.run(['git','init','-q',str(stage)],check=True,timeout=15)
         for ref,(data,mode,kind) in core_files.items():
             if kind!='core':continue
@@ -78,7 +76,7 @@ def stage_upstreams(root,source,runtimes,core_files):
                 check(not p.is_symlink(),'Unsupported symlink emitted by upstream installer: '+str(p))
                 if not p.is_file() or '__pycache__' in p.parts:continue
                 ref=p.relative_to(stage).as_posix()
-                if ref in core_files:continue
+                if ref in core_files and core_files[ref][2]=='core':continue
                 check(managed_path(ref),'Unexpected native output; review before distribution: '+ref)
                 generated[ref]=(relocate(p.read_bytes(),stage,root),p.stat().st_mode & 0o777,'native')
         check(generated,'No upstream installation files generated')

@@ -63,7 +63,7 @@ def project_root(project):
     check(root.is_dir() and not root.is_symlink(), 'Project must be an existing directory, not a symlink')
     root=root.resolve()
     try:
-        result=subprocess.run(['git','-C',str(root),'rev-parse','--show-toplevel'],capture_output=True,text=True,timeout=15)
+        result=subprocess.run(['git','-C',str(root),'rev-parse','--show-toplevel'],capture_output=True,text=True,encoding='utf-8',timeout=15)
     except (OSError,subprocess.TimeoutExpired) as exc:raise InstallError('Git is required: '+str(exc)) from exc
     check(result.returncode==0, 'Project must already be a Git workspace; initialize Git explicitly first')
     check(Path(result.stdout.strip()).resolve()==root, 'Use the Git workspace root, not a subdirectory')
@@ -113,11 +113,17 @@ def pid_alive(pid):
         import ctypes
         from ctypes import wintypes
         api=ctypes.WinDLL('kernel32',use_last_error=True)
+        api.OpenProcess.argtypes=[wintypes.DWORD,wintypes.BOOL,wintypes.DWORD]
         api.OpenProcess.restype=wintypes.HANDLE
+        api.GetExitCodeProcess.argtypes=[wintypes.HANDLE,ctypes.POINTER(wintypes.DWORD)]
+        api.GetExitCodeProcess.restype=wintypes.BOOL
+        api.CloseHandle.argtypes=[wintypes.HANDLE]
+        api.CloseHandle.restype=wintypes.BOOL
         handle=api.OpenProcess(0x1000,False,pid)
         if not handle:return ctypes.get_last_error()==5
         try:
-            code=wintypes.DWORD();api.GetExitCodeProcess(handle,ctypes.byref(code))
+            code=wintypes.DWORD()
+            if not api.GetExitCodeProcess(handle,ctypes.byref(code)):return True
             return code.value==259
         finally:api.CloseHandle(handle)
     try:os.kill(pid,0);return True
@@ -179,8 +185,10 @@ def rollback(root,journal):
     path_at(root,JOURNAL).unlink(missing_ok=True)
 
 
-def transaction(root,operations):
-    if not operations:return
+def transaction(root,operations,validate=None):
+    if not operations:
+        if validate:validate()
+        return
     check(not path_at(root,JOURNAL).exists(),'Interrupted transaction; run recover first')
     journal={'schema_version':1,'operations':operations}
     write_image(root,JOURNAL,bytes_image(json_bytes(journal),0o600))
@@ -188,6 +196,7 @@ def transaction(root,operations):
         for op in operations:
             check(same(image(root,op['path']),op['before']),'File changed during install: '+op['path'])
             write_image(root,op['path'],op['after'])
+        if validate:validate()
     except Exception:
         rollback(root,journal)
         raise
@@ -279,7 +288,15 @@ def blocks_for(runtimes):
     return blocks
 
 
-def file_record(data,mode,kind):return {'sha256':sha(data),'mode':mode,'kind':kind}
+def recorded_mode(mode,platform=None):
+    # chmod on Windows preserves only read-only/writable, not POSIX x/group bits.
+    # Record the resulting filesystem mode from the first install, not a desired
+    # POSIX mode which would change the manifest on the next identical install.
+    if (platform or os.name)=='nt':return 0o666 if mode & stat.S_IWRITE else 0o444
+    return mode
+
+
+def file_record(data,mode,kind):return {'sha256':sha(data),'mode':recorded_mode(mode),'kind':kind}
 
 
 def operation(root,ref,img):
@@ -317,7 +334,6 @@ def build_plan(root,package,files,previous,runtimes,native,checks_file):
         if fragment is not None:
             old=base64.b64decode(fragment,validate=True)
             if data.count(old)!=1:conflicts.append(ref);continue
-            # Retain the exact separator used at first install.
             sep=old[:old.index(start.encode())]
             new=sep+desired;out=data.replace(old,new,1)
         else:
@@ -328,7 +344,6 @@ def build_plan(root,package,files,previous,runtimes,native,checks_file):
         op=operation(root,ref,bytes_image(out,current['mode'] if current else 0o644))
         if op:ops.append(op)
     check(not conflicts,'Refusing to overwrite modified or unowned files: '+', '.join(sorted(conflicts)))
-    # Project-owned configuration is never claimed by the installation manifest.
     config_path='.loop/checks.json';current=image(root,config_path)
     provided=validate_checks(json.loads(Path(checks_file).read_text(encoding='utf-8'))) if checks_file else None
     if current:
@@ -364,7 +379,6 @@ def install(project,source,*,runtime=None,skip_upstreams=False,dry_run=False,che
     check(not (skip_upstreams and previous and previous_lock!=current_lock and any(v.get('status')=='installed' for v in native.values())), 'Cannot change upstream lock with --skip-upstreams; validate native upgrade first')
     reuse=previous and previous_lock==current_lock and all(v.get('status')!='installed' or v.get('project_root')==str(root) for v in native.values())
     needed=[] if skip_upstreams else [r for r in runtimes if not reuse or native[r].get('status')!='installed']
-    # Reuse only integrity-checked native files. Never bless local edits as an upgrade.
     for ref,entry in (previous or {}).get('files',{}).items():
         if entry['kind']!='native':continue
         current=image(root,ref)
@@ -373,7 +387,6 @@ def install(project,source,*,runtime=None,skip_upstreams=False,dry_run=False,che
     preview,_=build_plan(root,package,files,previous,runtimes,native,checks_file)
     if dry_run:return {'result':'pass','mode':'dry_run','planned_files':[o['path'] for o in preview],'native_staging_required':needed,'boundary':'Native outputs require staged generation; this preview performs no writes/downloads.'}
     with project_lock(root):
-        # Abort instead of acting on a manifest that changed while waiting for the lock.
         check(load_manifest(root)==previous,'Installation changed concurrently; retry from fresh state')
         if needed:
             from distribution.native import stage_upstreams
@@ -383,16 +396,19 @@ def install(project,source,*,runtime=None,skip_upstreams=False,dry_run=False,che
                 if ref not in files:files[ref]=value
             native={r:{'status':'installed','lock_sha256':current_lock,'project_root':str(root),'validation':'official installer artifact compatibility; not model login/execution'} for r in runtimes}
         operations,_=build_plan(root,package,files,previous,runtimes,native,checks_file)
-        transaction(root,operations)
+        def validate_applied():
+            result=doctor(root,inside_transaction=True)
+            check(result['result']=='pass','Post-install validation failed: '+', '.join(result['integrity_errors']))
+        transaction(root,operations,validate=validate_applied)
     report=doctor(root)
     return {**report,'changed_files':[o['path'] for o in operations],'operation':mode}
 
 
-def doctor(project):
+def doctor(project,*,inside_transaction=False):
     root=project_root(project);manifest=load_manifest(root)
     check(manifest is not None,'Loop is not installed in this project')
     errors=[]
-    if path_at(root,JOURNAL).exists():errors.append('Interrupted installation requires recover')
+    if path_at(root,JOURNAL).exists() and not inside_transaction:errors.append('Interrupted installation requires recover')
     for ref,entry in {**manifest.get('shared_files',{}),**manifest['files']}.items():
         current=image(root,ref)
         if current is None or sha(decode(current))!=entry['sha256'] or (os.name!='nt' and current['mode']!=entry.get('mode',current['mode'])):errors.append('Missing/modified: '+ref)
@@ -406,7 +422,6 @@ def doctor(project):
         try:
             check(entry.get('lock_sha256')==sha(path_at(root,'.loop/upstreams.lock.json').read_bytes()),'Native receipt belongs to another upstream lock')
             check(entry.get('project_root')==str(root),'Workspace moved; rerun install to relocate native references')
-            # Import from this release's identical contract code, not an unrelated global install.
             from scripts.bootstrap import doctor as upstream_doctor
             upstream_doctor(root,runtime)
         except Exception as exc:
