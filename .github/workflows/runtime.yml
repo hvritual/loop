@@ -1,0 +1,53 @@
+name: Loop Full Runtime
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: loop-runtime-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m unittest discover -s tests -v
+      - run: python tools/check_skills.py
+      - run: python examples/demo.py
+  sandbox:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Pin and test real Docker isolation
+        run: |
+          docker pull python:3.11-slim
+          IMAGE_ID=$(docker image inspect python:3.11-slim --format '{{.Id}}')
+          mkdir -p .loop-test-output
+          printf '%s\n' "$IMAGE_ID" > .loop-test-output/image-id.txt
+          python tests/docker_integration.py --image "$IMAGE_ID" | tee .loop-test-output/isolation.json
+          python examples/demo.py --docker-image "$IMAGE_ID" --test-auto-approve --directory .loop-test-output/demo
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: runtime-sandbox-evidence
+          path: |
+            .loop-test-output/image-id.txt
+            .loop-test-output/isolation.json
+            .loop-test-output/demo/export/
+            .loop-test-output/demo/state/evidence/
+          include-hidden-files: true
+          retention-days: 14

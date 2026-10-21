@@ -1,9 +1,0 @@
-{
-  "schema_version": 1,
-  "spec_sha256": "ab6b5c0e484f3f30f1d35064da53228c0ba2f3fdcb3a0f763189bbfcfe13824a",
-  "acceptance": {
-    "AC-1": ".planning/evidence/run-20261018T021114-4cd9054c/result.json",
-    "AC-2": ".planning/evidence/run-20261018T021059-f7c183d3/result.json",
-    "AC-3": ".planning/evidence/run-20261018T021114-73244f17/result.json"
-  }
-}
