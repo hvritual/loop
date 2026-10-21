@@ -1,0 +1,20 @@
+{
+  "responsibility": "只比较已验证发现并准备 Human 方案决定。",
+  "inputs": [
+    "baseline",
+    "experiment/verification evidence"
+  ],
+  "outputs": [
+    "keep/propose/defer",
+    "DecisionPacket"
+  ],
+  "commands": [
+    "propose",
+    "work"
+  ],
+  "forbidden": [
+    "自动换路线",
+    "忽略反证与成本"
+  ],
+  "example": "assets/example.json"
+}

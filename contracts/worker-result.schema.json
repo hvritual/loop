@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol"
+  ],
+  "properties": {
+    "protocol": {
+      "const": 1
+    },
+    "findings": {
+      "type": "array",
+      "maxItems": 10
+    },
+    "reviewed": {
+      "type": "array"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "handoff": {
+      "type": "object"
+    },
+    "checks": {
+      "type": "array"
+    },
+    "resolved_discoveries": {
+      "type": "array"
+    },
+    "conclusion": {
+      "type": "string"
+    },
+    "recommendation": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "protocol": 1,
+  "handoff": {
+    "target": "review-package",
+    "release_notes": "示例，仅审阅包",
+    "rollback": "丢弃隔离产物",
+    "observation_plan": "以真实来源核对用户结果"
+  },
+  "findings": []
+}

@@ -1,0 +1,20 @@
+{
+  "responsibility": "只对照冻结指标判断结果差距，形成下一轮有依据的决定。",
+  "inputs": [
+    "delivery receipt",
+    "attributed observations"
+  ],
+  "outputs": [
+    "outcome status",
+    "rework proposal"
+  ],
+  "commands": [
+    "observe",
+    "review"
+  ],
+  "forbidden": [
+    "把人工声明标成独立遥测",
+    "无依据声称业务收益"
+  ],
+  "example": "assets/example.json"
+}

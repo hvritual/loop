@@ -1,0 +1,20 @@
+{
+  "responsibility": "准备发布包、回滚和观测，不执行未授权生产写入。",
+  "inputs": [
+    "verified build",
+    "Human release approval"
+  ],
+  "outputs": [
+    "review package",
+    "deploy handoff"
+  ],
+  "commands": [
+    "run",
+    "review"
+  ],
+  "forbidden": [
+    "生产部署",
+    "伪造发布回执"
+  ],
+  "example": "assets/example.json"
+}

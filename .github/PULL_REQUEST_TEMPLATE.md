@@ -1,17 +1,9 @@
-## Goal / scope
-Intent ID and approved target:
+## Goal and authorization
 
-## Evidence
-Spec/design/plan hashes; executed checks and raw evidence; actual CI:
+## Source baseline / scope / non-goals
 
-## Review
-Independent reviewer, findings and disposition (do not invent approval):
+## Actual executed checks and evidence
 
-## Risk and recovery
-Scope changes, permissions, side effects and rollback/reconciliation:
+## Human decisions / unknowns / residual risks
 
-## Learning
-Candidate or reason for no generalized change:
-
-## Not verified
-Live-model, platform or production checks not executed:
+Do not treat fixtures as real approvals, model evaluations or production observations. No automatic main merge.

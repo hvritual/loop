@@ -1,0 +1,19 @@
+{
+  "responsibility": "只发现并登记与目标有关的未知边界。",
+  "inputs": [
+    "goal criteria",
+    "current binding",
+    "source evidence"
+  ],
+  "outputs": [
+    "Discovery"
+  ],
+  "commands": [
+    "discover"
+  ],
+  "forbidden": [
+    "扩大实施范围",
+    "省略反证条件"
+  ],
+  "example": "assets/example.json"
+}

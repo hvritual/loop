@@ -1,81 +1,78 @@
-# Loop — 意图到结果的可恢复软件交付工作流
+# Loop Full Runtime
 
-**GSD 唯一推进任务，BMAD 提供专业分析，Rules 约束边界，证据决定是否完成。**
+**一句意图 → 有界探索 → Human 决策 → Design / Build / Deploy → 证据验收 → 结果反馈。**
 
-这是可安装的仓库工作流与 Skills 集成包，不是新开发的 Orchestrator、后台服务或模型 API。业务开发由已有 Coding Agent + GSD 执行。Python 脚本只做契约校验、执行证据采集和上下文交接。
+这是模式 B 的可执行控制面，不再是 GSD 调度器外围的文档校验包。实现使用 Python 3.11+ 标准库和 SQLite；没有模型 API Key 的强制依赖。模型或 Coding Agent 通过固定 Worker 协议接入，不能自行改变授权。
 
-## 从这里开始
+## 已实现的运行边界
 
-环境：Git、Python 3.11+。安装上游还需要 Node.js 22+、npm、uv 和网络。
-
-```sh
-# 不需要模型账号或网络：验证 Loop 自身
-python -m unittest discover -s tests -v
-python scripts/loop.py lint
-python scripts/demo.py
-
-# 在目标仓库安装固定版本的原生工作流（选一个客户端）
-python scripts/bootstrap.py --runtime codex
-# 或 --runtime claude / --runtime opencode
-python scripts/bootstrap.py --runtime codex --doctor
-```
-
-安装后在该仓库打开 Coding Agent，输入：
-
-> 阅读 AGENTS.md，使用 loop 工作流处理这个意图：……。先调查和澄清，不要直接编码。在已授权范围内持续推进；需要我决定时提供证据、推荐和影响。
-
-新会话输入：
-
-> 阅读 AGENTS.md，使用 loop-resume 恢复 <INTENT-ID>。先对账真实仓库、GSD 状态和验证证据，再继续下一项有效任务。
-
-Loop 自有 Skills 的权威目录是 `.agents/skills/loop*/`。Claude 使用生成的薄入口引用同一份内容。其他能读仓库和调用工具的模型可显式加载这些文件；这不等于它们已经通过原生客户端兼容测试。
-
-## 开发流程
-
-**意图 → 事实调查与反例 → Intent Brief → 行为规格 → 可审阅设计 → GSD 规划 → 执行与修复 → 验收与独立审查 → 集成/部署/观察 → 规则与 Skill 候选 → 下一轮。**
-
-| 能力 | 落地内容 |
+| 能力 | 实际实现 |
 |---|---|
-| 更好的理解 | actor / scenario / problem / outcome；证据状态；替代方案；单个高价值决策；可拒绝错误意图 |
-| 更准的规划 | outcome → requirement → acceptance → 原生 GSD PLAN → evidence；上游变更使下游引用失效 |
-| 更自主的执行 | 由 GSD 执行；BMAD 不维护第二份 sprint/task 状态；有界修复；独立任务可继续 |
-| 更可靠的验收 | 检查真实命令、退出码、日志哈希和代码/规则/测试版本；UI 预览与审查；外部回执对账 |
-| 有依据的沉淀 | 事件 → 候选 → 正反例评估 → 独立/人工审批 → 合入 → 定期复查，不自动堆积 Rules |
-| 跨会话 | GSD STATE/ROADMAP/PLAN/SUMMARY 是进度权威；checkpoint 是可丢弃投影；恢复先对账 |
+| 唯一调度源 | SQLite 事务状态、幂等命令、事件链、乐观版本检查 |
+| 四阶段 | Discover（Design Agent 负责）、Design、Build、Deploy；每阶段 pre/execute/verify/post |
+| 主动探索 | 问题去重、目标关联、反证条件、父子深度、候选上限、实验、独立验证、方案比较 |
+| Human 权限 | 独立凭据；目标/设计/发布准备/预算/基线变更审批绑定精确提案摘要 |
+| 预算 | 全局、探索、阶段探索的多维预留；未知实际 Token/费用保留 null，不伪装为零 |
+| 恢复 | 租约与 fencing、超时变 unknown、人工确认停止后才能重试；不把不确定执行转成成功 |
+| 交接与证据 | 固定 Git 提交输入、内容哈希、原始输出、独立检查、过期证据拒绝、下游重新验证 |
+| 运行器 | 默认失败关闭的 Docker 适配器；显式启用的 trusted 本地适配器；不自动降级 |
+| 结果闭环 | 交付与经营结果分开；指标差距生成有反例解释的 Human 重做提案 |
 
-## 常用命令
+**当前发布目标只有 `review-package`。没有实现生产发布凭据、远程生产写入或分布式高可用。**
+
+## 立即验证
 
 ```sh
-python scripts/loop.py gate <ID> discover
-python scripts/loop.py gate <ID> plan
-python scripts/loop.py evidence unit --intent <ID>
-python scripts/loop.py gate <ID> verify
-python scripts/loop.py checkpoint <ID> --next "核对 PR 的当前 CI，然后继续下一计划"
-python scripts/loop.py resume <ID>
-python scripts/loop.py learning .planning/intents/<ID>/lesson.json
+python -m unittest discover -s tests -v
+python tools/check_skills.py
+python examples/demo.py
 ```
 
-完整门禁：`discover / specify / design / plan / verify / review / release / close`。这些是 Loop 的真实 CLI 命令；GSD/BMAD 的原生命令由官方安装器按客户端生成，不假设不同客户端使用相同前缀。
+默认演示使用合成咖啡机客户出杯 CSV，执行到目标评审后停止，**不会自动代替 Human 批准**。
 
-## 目录
+完整集成测试可显式启用测试用审批：
 
-```text
-.agents/skills/loop*/        单一职责 Skills、参考和模板
-.loop/                      固定上游版本、Rules、允许执行的检查
-.planning/                  GSD 进度，以及意图/规格/设计/证据产物
-scripts/                    薄校验与交接工具，不做模型编排
-tests/                      正常与失败路径测试
-evals/                      意图理解的真实模型评测用例与评分方法
-docs/                       架构、契约、运维和验证边界
-.github/                    CI、PR 模板、Issue 模板、治理设置候选
+```sh
+python examples/demo.py --test-auto-approve
 ```
 
-## 不能混淆的边界
+该命令生成真实子进程回执，但 Human 身份明确标记为 `SIMULATED`，业务数据和 Agent 均为 fixture，不能证明真实模型或生产效果。
 
-自动化测试证明契约检查和交接逻辑可执行，不证明模型的意图理解已经提升。`demo.py` 使用明确标记的合成场景，不伪装为真实产品、人工批准或生产部署。
+## Docker 沙箱验证
 
-安装器兼容检查不登录模型；真实 Codex/Claude/OpenCode 接力开发必须使用已授权账号单独验证。新机器仍需取得相同仓库及已提交/推送的状态。关闭聊天不会自动继续工作。
+先由操作人准备镜像，Runtime 本身不拉取镜像：
 
-仓库内的 Rules、CODEOWNERS 和 CI 文件不等于 GitHub 分支保护已经启用。平台治理配置及独立审查能力必须实际可用后才能形成硬门禁。见 [运维与权限](docs/OPERATIONS.md) 和 [验证记录](docs/VALIDATION.md)。
+```sh
+docker pull python:3.11-slim
+IMAGE_ID=$(docker image inspect python:3.11-slim --format '{{.Id}}')
+python tests/docker_integration.py --image "$IMAGE_ID"
+python examples/demo.py --docker-image "$IMAGE_ID" --test-auto-approve
+```
 
-上游版本和能力来源见 [来源与集成](docs/UPSTREAMS.md)。
+镜像使用内容 ID 固定；执行时禁止网络、只读根文件系统、移除 capabilities、非 root 身份，并限制进程数、内存、CPU、运行时间和输出。Docker 不可用即拒绝运行。完整安全边界见 `docs/SECURITY.md`。
+
+## 真实项目接入
+
+首先注册**项目专用**的 Design/Build/Deploy/Explorer 适配器和独立 Verifier；内置 CSV Worker 不是通用编程模型。
+`docs/PROVIDER_PROTOCOL.md` 给出了输入输出协议、目录约定、适配器摘要和失败行为。已有 ChatGPT/Codex 等 Coding Agent 可以读取 Skills、准备任务与结果；真实账号接力仍需单独验收。
+
+```sh
+python -m loop_runtime --root /secure/loop-state init --policy approved-policy.json
+python -m loop_runtime --root /secure/loop-state \
+  --token-file /secure/loop-state/.credentials/controller.token \
+  command INTENT-001 create --data request.json --key create-001 --expected 0
+
+# 自动推进到需要人决策、预算/风险阻塞或本次步数上限，不自动后台常驻。
+python -m loop_runtime --root /secure/loop-state \
+  --token-file /secure/loop-state/.credentials/controller.token \
+  run INTENT-001 --runner-token-file /secure/loop-state/.credentials/runner.token \
+  --adapter-root /approved/adapters --max-steps 64
+```
+
+Human 阅读 `review` 输出后，以自己的凭据提交决定；不要把 Human Token 交给执行 Agent。示例及恢复操作见 `docs/OPERATIONS.md`。
+
+## 仓库导航
+
+`loop_runtime/` 为控制器、存储、契约、执行器和 CLI；`.agents/` 为三个 Agent 与共享单职能 Skills；`contracts/` 为交换格式；`tests/` 为运行时和沙箱验收；`docs/` 为架构、迁移、权限和验证边界。
+
+旧主干 `01dab3068c2f5810e3220541c8afabaead8007e3` 可从 Git 历史恢复。未合并安装器 PR #4 不在本次重建的实现基线中；迁移说明见 `docs/MIGRATION.md`。不要把旧安装器的通过记录算作本 Runtime 的验收。

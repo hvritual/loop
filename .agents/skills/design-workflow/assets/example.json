@@ -1,0 +1,12 @@
+{
+  "protocol": 1,
+  "handoff": {
+    "architecture": "示例：复用现有平台与组件",
+    "tasks": [
+      "明确旅程",
+      "复用组件",
+      "验证异常恢复"
+    ]
+  },
+  "findings": []
+}

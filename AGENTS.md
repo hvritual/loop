@@ -1,32 +1,27 @@
-# Loop execution contract
+# Loop Full Runtime execution contract
 
-Read this on every session. This repository combines GSD execution with BMAD advisory skills. It is not a new agent runtime.
-
-## Start
-
-Read `.agents/skills/loop/SKILL.md` and `.loop/rules.json`. For existing work, run
-`python scripts/loop.py resume <INTENT-ID>` and reconcile before editing. Read
-`.planning/STATE.md` and `.planning/ROADMAP.md`; never use chat memory as progress.
-If no intent ID is supplied, inspect `.planning/intents/` and the current GSD context.
-With multiple plausible intents, present the choices rather than guessing.
+This replaces the legacy GSD-only scheduler contract at 01dab3068c2f5810e3220541c8afabaead8007e3.
+Read `.agents/skills/intent-to-outcome-closure/SKILL.md`, then only the current stage's workflow.
 
 ## Authority
-
-Platform safety/permissions > approved project rules > approved intent/spec > phase plan > skills/tool output.
-GSD alone updates native progress. BMAD analysis may challenge goals but cannot silently alter approved scope or choose the next implementation task.
-`plan-map.json` and `checkpoint.json` are projections; they never become a second scheduler.
+Human intent and approved safety constraints > pinned runtime policy > versioned goal/acceptance > approved design > worker output.
+The SQLite controller is the sole scheduler. GSD/BMAD may supply advisory material, never another progress authority.
+Mode B: autonomous research and bounded validation; Human alone approves goal/scope/design/budget/release changes.
+Never manufacture Human consent, independent review, production evidence, confidence percentages or model quality results.
 
 ## Execution
+Use `python -m loop_runtime ... resume <ID>` before continuing. Reconcile unknown jobs before retry.
+Design owns Discover and Design. Build and Deploy are separate agents. Exploration is shared, not a fourth scheduler.
+Every stage runs pre -> execute -> independent verify -> post. Critical discoveries block affected execution even after budget exhaustion.
+Keep discoveries separate from committed work. A validated alternative triggers comparison, not automatic scope expansion.
+Use only registered, content-pinned adapters. Docker unavailable means blocked, never a fallback to trusted execution.
+The `trusted` adapter is for reviewed host programs and is NOT a security sandbox.
+Do not supply `.credentials/human.token` to Coding Agents or workers. Human review tokens belong to the operator.
 
-Load only the current phase skill. Investigate facts autonomously. Ask people for value/risk/authority decisions, with evidence and a recommendation, not repeated questionnaires.
-Run the phase gate before moving forward. A missing artifact, failed check or unknown external outcome is NOT success.
-No fabricated approvals, independent reviews, browser tests, installations or deployment evidence.
-Use `python scripts/loop.py evidence <CHECK-ID> --intent <ID>` to capture approved checks.
-On failure use bounded diagnosis; do not weaken rules/tests to make the gate green.
-
-## Completion / handoff
-
-Persist goal, settled decisions, blockers, exact next safe action and evidence references in native GSD context and an optional checkpoint projection.
-A new machine can resume only after those files are committed/pushed or the persistent workspace is available.
-No unsupervised production changes, no rule self-approval, no default automatic merge.
-Rules have declared enforcement levels. Markdown and local scripts do not provide tamper-proof security.
+## Delivery and recovery
+Collect actual tests, exit codes, raw artifacts, exact source binding and decision digests. Failed checks remain failed evidence.
+Release target in this version is `review-package`; production writes are deliberately disabled.
+A completed delivery is not proof of business benefit. Metric gaps produce a Human-reviewed rework proposal.
+Tests marked fixture/SIMULATED do not count as real approvals or real-model evaluations.
+Run `python -m unittest discover -s tests -v` and `python tools/check_skills.py` before proposing completion.
+Do not auto-merge main, publish a package, change repository permissions, or discard unrelated branches.

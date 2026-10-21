@@ -1,0 +1,38 @@
+{
+  "outcome": "Deliver a reproducible customer cups summary review package",
+  "non_goals": [
+    "No production writes",
+    "No real-model quality claim"
+  ],
+  "constraints": [
+    "Only explicit source snapshot",
+    "Human approves frozen goal, design and release"
+  ],
+  "criteria": {
+    "discover": [
+      {
+        "id": "DISCOVER-1",
+        "description": "Verify the frozen fixture contract for discover"
+      }
+    ],
+    "design": [
+      {
+        "id": "DESIGN-1",
+        "description": "Verify the frozen fixture contract for design"
+      }
+    ],
+    "build": [
+      {
+        "id": "BUILD-1",
+        "description": "Verify the frozen fixture contract for build"
+      }
+    ],
+    "deploy": [
+      {
+        "id": "DEPLOY-1",
+        "description": "Verify the frozen fixture contract for deploy"
+      }
+    ]
+  },
+  "metrics": []
+}

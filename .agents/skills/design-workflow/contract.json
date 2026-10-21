@@ -1,0 +1,22 @@
+{
+  "responsibility": "串联 Discover/Design 的单职能能力，产出可审阅规格与方案。",
+  "inputs": [
+    "GoalContract",
+    "Discovery",
+    "approved goal"
+  ],
+  "outputs": [
+    "design handoff",
+    "Human design review"
+  ],
+  "commands": [
+    "run",
+    "review",
+    "context"
+  ],
+  "forbidden": [
+    "跳过真实预览",
+    "擅自改变现有框架"
+  ],
+  "example": "assets/example.json"
+}
