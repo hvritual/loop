@@ -1,0 +1,11 @@
+{
+  "protocol": 1,
+  "handoff": {
+    "summary": "示例实现",
+    "changed_files": [
+      "change.patch"
+    ],
+    "test_plan": "独立运行已批准的验收命令"
+  },
+  "findings": []
+}

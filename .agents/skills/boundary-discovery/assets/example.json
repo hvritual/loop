@@ -1,0 +1,14 @@
+{
+  "category": "boundary",
+  "question": "跨租户合作解除后历史数据是否仍可见？",
+  "hypothesis": "历史数据归属可能影响客户旅程",
+  "falsifier": "已批准规格已覆盖所有解除场景",
+  "criterion": "DISCOVER-1",
+  "severity": "high",
+  "scope": [
+    "discover",
+    "design",
+    "build",
+    "deploy"
+  ]
+}

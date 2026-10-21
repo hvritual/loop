@@ -1,0 +1,25 @@
+{
+  "responsibility": "唯一控制器：维护目标、权限、预算、状态与闭环，不代替 Human 决策。",
+  "inputs": [
+    "GoalContract",
+    "pinned policy",
+    "SQLite state"
+  ],
+  "outputs": [
+    "Job queue",
+    "DecisionPacket",
+    "audit.jsonl"
+  ],
+  "commands": [
+    "create",
+    "tick",
+    "run",
+    "resume"
+  ],
+  "forbidden": [
+    "自批目标",
+    "双调度器",
+    "伪造验收"
+  ],
+  "example": "assets/example.json"
+}

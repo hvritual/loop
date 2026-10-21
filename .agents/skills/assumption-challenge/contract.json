@@ -1,0 +1,18 @@
+{
+  "responsibility": "只执行阶段前后五维反例检查，不修改目标。",
+  "inputs": [
+    "frozen context",
+    "phase evidence"
+  ],
+  "outputs": [
+    "pre/post result"
+  ],
+  "commands": [
+    "context",
+    "work"
+  ],
+  "forbidden": [
+    "把自报置信度当批准"
+  ],
+  "example": "assets/example.json"
+}

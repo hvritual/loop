@@ -1,0 +1,21 @@
+{
+  "responsibility": "只运行独立验收并验证来源、摘要和版本。",
+  "inputs": [
+    "producer artifacts",
+    "frozen criteria",
+    "verifier adapter"
+  ],
+  "outputs": [
+    "verification receipt",
+    "check artifacts"
+  ],
+  "commands": [
+    "work",
+    "resume"
+  ],
+  "forbidden": [
+    "执行器自验收",
+    "缺少原始记录仍通过"
+  ],
+  "example": "assets/example.json"
+}

@@ -1,0 +1,11 @@
+{
+  "protocol": 1,
+  "checks": [
+    {
+      "id": "BUILD-1",
+      "passed": false,
+      "artifact": "artifacts/checks.json"
+    }
+  ],
+  "findings": []
+}

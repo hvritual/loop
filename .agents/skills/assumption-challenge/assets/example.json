@@ -1,0 +1,12 @@
+{
+  "protocol": 1,
+  "reviewed": [
+    "requirements",
+    "alternatives",
+    "boundaries",
+    "counterexamples",
+    "outcomes"
+  ],
+  "notes": "示例：列出已查边界和未验证事项，不声明全部未知已穷尽。",
+  "findings": []
+}

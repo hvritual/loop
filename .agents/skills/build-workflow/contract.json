@@ -1,0 +1,21 @@
+{
+  "responsibility": "在冻结范围内实施与有界修复，交给独立验证器。",
+  "inputs": [
+    "approved design",
+    "frozen criteria"
+  ],
+  "outputs": [
+    "build handoff",
+    "code artifacts",
+    "verification"
+  ],
+  "commands": [
+    "run",
+    "context"
+  ],
+  "forbidden": [
+    "改变验收标准以通过",
+    "自行合并"
+  ],
+  "example": "assets/example.json"
+}
